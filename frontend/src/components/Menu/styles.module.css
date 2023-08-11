@@ -1,0 +1,28 @@
+.menu-container {
+  position: absolute;
+  top: 0;
+  width: 350px;
+  left: calc(50% - 175px);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background: #eeeeee;
+  height: 60px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.menu-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: none;
+  transition: 0.3s;
+  background-color: #fff1dc;
+}
+.menu-button:hover {
+  background-color: #e8d5c4;
+}
+.menu-button-active {
+  background-color: #e8d5c4;
+}
