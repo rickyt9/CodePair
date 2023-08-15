@@ -2,6 +2,9 @@ import { useState, useEffect, createRef, useRef, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Whiteboard from '../../components/Whiteboard';
 import { socket, connectWithSocketServer } from '../../socketConn/socketConn';
+import CodeMirror from '@uiw/react-codemirror';
+import { python } from '@codemirror/lang-python';
+
 
 const ICE_SERVERS = {
   iceServers: [
@@ -222,6 +225,8 @@ const CodeEditor = () => {
     });
   };
 
+  const code = `print('Hello World')`
+
   return (
     <div>
       <div>
@@ -254,9 +259,12 @@ const CodeEditor = () => {
         <input type='text' value={chatText} onChange={handleChatInputChange} />
         <button onClick={sendMessage}>Send Message</button>
       </div>
-      <div style={{ position: 'relative' }}>
+      <div className='relative'>
         <Whiteboard />
       </div>
+      <CodeMirror value={code}  extensions={[
+        python(),
+      ]} />
     </div>
   );
 };
