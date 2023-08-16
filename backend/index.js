@@ -10,10 +10,12 @@ const io = new Server(server);
 app.use(cors());
 
 let elements = [];
+let code = '';
 
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
   io.to(socket.id).emit('whiteboard-state', elements);
+  io.to(socket.id).emit('code-edit', code);
 
   // Triggered when a peer hits the join room button.
   socket.on('join', (roomName) => {
@@ -74,6 +76,11 @@ io.on('connection', (socket) => {
     elements = [];
     socket.broadcast.emit('whiteboard-clear');
   });
+
+  socket.on('code-write', (newVal) => {
+    code = newVal;
+    socket.broadcast.emit('code-edit', code);
+  })
 });
 
 const PORT = process.env.PORT || 3001;

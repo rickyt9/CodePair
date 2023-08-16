@@ -50,7 +50,19 @@ const CodeEditor = () => {
     socket.on('offer', handleReceivedOffer);
     socket.on('answer', handleReceivedAnswer);
     socket.on('ice-candidate', handleNewPeerIceCandidate);
+
+    // Add handlers for code changes
+    socket.on('code-edit', handleCodeEdit);
   }, []);
+
+  const handleCodeWrite = (val: string) => {
+    socket.emit('code-write', val);
+    setCode(val);
+  };
+
+  const handleCodeEdit = (val: string) => {
+    setCode(val);
+  };
 
   const setUserMediaStream = async () => {
     const mediaTracks = { audio: true, video: true };
@@ -233,7 +245,7 @@ const CodeEditor = () => {
         <div className='border-b border-charcoal text-white'>
           <div className='py-2 px-8'>Python 3</div>
         </div>
-        <Editor code={code} setCode={setCode} />
+        <Editor code={code} setCode={handleCodeWrite} />
       </main>
 
       {/* <div>
