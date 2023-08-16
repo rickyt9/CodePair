@@ -1,9 +1,10 @@
-import { useState, useEffect, createRef, useRef, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Whiteboard from '../../components/Whiteboard';
 import { socket, connectWithSocketServer } from '../../socketConn/socketConn';
 import CodeMirror from '@uiw/react-codemirror';
 import { python } from '@codemirror/lang-python';
+import Header from './components/Header';
 
 
 const ICE_SERVERS = {
@@ -27,8 +28,8 @@ const CodeEditor = () => {
   const [chatText, setChatText] = useState<string>();
 
   // Refs for video elements
-  const userVideoRef = createRef<HTMLVideoElement>();
-  const peerVideoRef = createRef<HTMLVideoElement>();
+  const userVideoRef = useRef<HTMLVideoElement>(null);
+  const peerVideoRef = useRef<HTMLVideoElement>(null);
   const userStreamRef = useRef<MediaStream>();
 
   // Store ref to the WebRTC connection
@@ -225,11 +226,19 @@ const CodeEditor = () => {
     });
   };
 
-  const code = `print('Hello World')`
+  const code = `print('Hello World')`;
 
   return (
-    <div>
-      <div>
+    <div className='flex flex-col flex-1'>
+      <Header />
+      {/* CODE EDITOR SECTION */}
+      <main className='bg-darkgrey flex-1'>
+        <div className='border-b border-charcoal text-white'>
+          <div className='py-2 px-8'>Python 3</div>
+        </div>
+      </main>
+
+      {/* <div>
         <video autoPlay ref={userVideoRef} />
         <video autoPlay ref={peerVideoRef} />
         <button onClick={toggleMic} type='button'>
@@ -262,9 +271,7 @@ const CodeEditor = () => {
       <div className='relative'>
         <Whiteboard />
       </div>
-      <CodeMirror value={code}  extensions={[
-        python(),
-      ]} />
+      <CodeMirror value={code} extensions={[python()]} /> */}
     </div>
   );
 };
