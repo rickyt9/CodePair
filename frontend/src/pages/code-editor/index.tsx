@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Whiteboard from '../../components/Whiteboard';
 import { socket, connectWithSocketServer } from '../../socketConn/socketConn';
-import CodeMirror from '@uiw/react-codemirror';
-import { python } from '@codemirror/lang-python';
 import Header from './components/Header';
-
+import Editor from './components/CodeEditor';
 
 const ICE_SERVERS = {
   iceServers: [
@@ -26,6 +24,7 @@ const CodeEditor = () => {
   const [cameraActive, setCameraActive] = useState(true);
   const [messages, setMessages] = useState<Array<MessageType>>([]);
   const [chatText, setChatText] = useState<string>();
+  const [code, setCode] = useState<string>('');
 
   // Refs for video elements
   const userVideoRef = useRef<HTMLVideoElement>(null);
@@ -226,8 +225,6 @@ const CodeEditor = () => {
     });
   };
 
-  const code = `print('Hello World')`;
-
   return (
     <div className='flex flex-col flex-1'>
       <Header />
@@ -236,6 +233,7 @@ const CodeEditor = () => {
         <div className='border-b border-charcoal text-white'>
           <div className='py-2 px-8'>Python 3</div>
         </div>
+        <Editor code={code} setCode={setCode} />
       </main>
 
       {/* <div>
