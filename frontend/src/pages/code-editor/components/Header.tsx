@@ -4,12 +4,26 @@ import { AiOutlineUserAdd } from 'react-icons/ai';
 import { FaCode } from 'react-icons/fa6';
 import Tab from './Tab';
 
-const Header = () => {
+type HeaderProps = {};
+
+const tabs = [
+  {
+    label: 'Code',
+    icon: <FaCode />,
+  },
+  {
+    label: 'Whiteboard',
+    icon: <PiPencilSimpleLineThin />,
+  },
+];
+
+const Header = ({}: HeaderProps) => {
   return (
     <header className='bg-darkblue-800 px-8 text-beige text-sm'>
       <nav className='flex'>
-        <Tab label='Code' icon={<FaCode />} active />
-        <Tab label='Whiteboard' icon={<PiPencilSimpleLineThin />} />
+        {tabs.map((tab, index) => (
+          <Tab key={`tab-${index}`} {...tab} tabIndex={index} />
+        ))}
 
         <div className='ml-auto flex items-center'>
           <div className='flex items-center mr-8'>
@@ -27,7 +41,6 @@ const Header = () => {
             Invite
           </div>
         </div>
-        
       </nav>
     </header>
   );

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ToolType, Shape } from '../../utils/types';
 
-interface WhiteboardState {
+type WhiteboardState = {
   tool: ToolType | null;
   elements: Shape[];
 }
@@ -13,7 +13,7 @@ const initialState: WhiteboardState = {
 
 const whiteboardSlice = createSlice({
   name: 'whiteboard',
-  initialState: initialState,
+  initialState,
   reducers: {
     setToolType: (state, action: PayloadAction<ToolType>) => {
       state.tool = action.payload;

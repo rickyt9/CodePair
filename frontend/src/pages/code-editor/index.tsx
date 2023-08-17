@@ -4,6 +4,7 @@ import Whiteboard from '../../components/Whiteboard';
 import { socket, connectWithSocketServer } from '../../socketConn/socketConn';
 import Header from './components/Header';
 import Editor from './components/CodeEditor';
+import { useAppSelector } from '../../hooks';
 
 const ICE_SERVERS = {
   iceServers: [
@@ -25,6 +26,7 @@ const CodeEditor = () => {
   const [messages, setMessages] = useState<Array<MessageType>>([]);
   const [chatText, setChatText] = useState<string>();
   const [code, setCode] = useState<string>('');
+  const activePage = useAppSelector((state) => state.editor.activePage);
 
   // Refs for video elements
   const userVideoRef = useRef<HTMLVideoElement>(null);
@@ -245,7 +247,8 @@ const CodeEditor = () => {
         <div className='border-b border-charcoal text-white'>
           <div className='py-2 px-8'>Python 3</div>
         </div>
-        <Editor code={code} setCode={handleCodeWrite} />
+        {activePage === 0 && <Editor code={code} setCode={handleCodeWrite} />}
+        {activePage === 1 && <Whiteboard />}
       </main>
 
       {/* <div>
@@ -277,11 +280,7 @@ const CodeEditor = () => {
         </div>
         <input type='text' value={chatText} onChange={handleChatInputChange} />
         <button onClick={sendMessage}>Send Message</button>
-      </div>
-      <div className='relative'>
-        <Whiteboard />
-      </div>
-      <CodeMirror value={code} extensions={[python()]} /> */}
+      </div> */}
     </div>
   );
 };

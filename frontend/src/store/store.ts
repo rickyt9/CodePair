@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import whiteboardSliceReducer from '../components/Whiteboard/whiteboardSlice';
+import editorSliceReducer from './slices/editorSlice';
 
 export const store = configureStore({
   reducer: {
     whiteboard: whiteboardSliceReducer,
+    editor: editorSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
