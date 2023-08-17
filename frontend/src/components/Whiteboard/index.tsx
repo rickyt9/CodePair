@@ -55,8 +55,19 @@ const Whiteboard = () => {
     });
   }, [elements]);
 
+  const computePointInCanvas = (event: MouseEvent): Point | void => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    return { x, y };
+  }
+
   const handleMouseDown = (event: MouseEvent) => {
-    const { clientX, clientY } = event;
+    const currentPoint = computePointInCanvas(event);
+    const { x: clientX, y: clientY } = currentPoint!;
 
     if (selectedElement && action === Action.WRITING) return;
 
@@ -142,7 +153,9 @@ const Whiteboard = () => {
   };
 
   const handleMouseMove = (event: MouseEvent<HTMLCanvasElement>) => {
-    const { clientX, clientY } = event;
+    const currentPoint = computePointInCanvas(event);
+    const { x: clientX, y: clientY } = currentPoint!;
+
     if (action === Action.DRAWING) {
       // Find index of selected element
       const index = elements.findIndex((el) => el.id === selectedElement?.id);
@@ -240,7 +253,7 @@ const Whiteboard = () => {
   };
 
   return (
-    <>
+    <div className='bg-white relative'>
       <Menu />
       {action === Action.WRITING ? (
         <textarea
@@ -269,7 +282,7 @@ const Whiteboard = () => {
         width={window.innerWidth}
         height={window.innerHeight}
       />
-    </>
+    </div>
   );
 };
 

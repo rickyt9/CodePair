@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Whiteboard from '../../components/Whiteboard';
 import { socket, connectWithSocketServer } from '../../socketConn/socketConn';
