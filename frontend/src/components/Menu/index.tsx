@@ -1,55 +1,59 @@
-import styles from './styles.module.css';
-import rectangleIcon from '../../assets/icons/rectangle.svg';
-import lineIcon from '../../assets/icons/line.svg';
-import rubberIcon from '../../assets/icons/rubber.svg';
-import pencilIcon from '../../assets/icons/pencil.svg';
-import textIcon from '../../assets/icons/text.svg';
-import selectionIcon from '../../assets/icons/selection.svg';
+import classNames from 'classnames';
+import { MdDraw } from 'react-icons/md';
+import { FaEraser } from 'react-icons/fa';
+import {
+  PiTextTFill,
+  PiCursorFill,
+  PiSquareBold,
+  PiLineSegmentFill,
+} from 'react-icons/pi';
 import { ToolType } from '../../utils/types';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setElements, setToolType } from '../Whiteboard/whiteboardSlice';
-import classNames from 'classnames';
 import { emitClearWhiteboard } from '../../socketConn/socketConn';
 
-interface IconButtonProps {
-  src: string;
+type IconButtonProps = {
+  icon: JSX.Element;
   type?: ToolType;
   isRubber?: boolean;
-}
+};
 
-const IconButton = ({ src, type, isRubber }: IconButtonProps) => {
+const IconButton = ({ icon, type, isRubber }: IconButtonProps) => {
   const dispatch = useAppDispatch();
   const selectedToolType = useAppSelector((state) => state.whiteboard.tool);
 
   const handleToolChange = () => {
-    dispatch(setToolType(type!));
+    if (type) {
+      dispatch(setToolType(type));
+    }
   };
   const handleClearCanvas = () => {
     dispatch(setElements([]));
     emitClearWhiteboard();
   };
 
+  const active = selectedToolType === type;
   return (
     <button
-      className={classNames(styles['menu-button'], {
-        [styles['menu-button-active']]: selectedToolType === type,
+      className={classNames('text-white text-lg duration-500', {
+        'bg-white/30 p-1 rounded-md': active,
       })}
       onClick={isRubber ? handleClearCanvas : handleToolChange}
     >
-      <img width='80%' height='80%' src={src} />
+      {icon}
     </button>
   );
 };
 
 const Menu = () => {
   return (
-    <div className={`${styles['menu-container']} z-10`}>
-      <IconButton src={rectangleIcon} type={ToolType.RECTANGLE} />
-      <IconButton src={lineIcon} type={ToolType.LINE} />
-      <IconButton src={rubberIcon} isRubber />
-      <IconButton src={pencilIcon} type={ToolType.PENCIL} />
-      <IconButton src={textIcon} type={ToolType.TEXT} />
-      <IconButton src={selectionIcon} type={ToolType.SELECTION} />
+    <div className='bg-zinc-700 absolute z-10 top-2 left-1/2 -translate-x-1/2 p-2.5 flex items-center gap-4 rounded-lg'>
+      <IconButton icon={<PiSquareBold />} type={ToolType.RECTANGLE} />
+      <IconButton icon={<PiLineSegmentFill />} type={ToolType.LINE} />
+      <IconButton icon={<FaEraser />} isRubber />
+      <IconButton icon={<MdDraw />} type={ToolType.PENCIL} />
+      <IconButton icon={<PiTextTFill />} type={ToolType.TEXT} />
+      <IconButton icon={<PiCursorFill />} type={ToolType.SELECTION} />
     </div>
   );
 };
