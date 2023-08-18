@@ -243,7 +243,7 @@ const CodeEditor = () => {
     <div className='flex flex-col flex-1'>
       <Header />
       {/* CODE EDITOR SECTION */}
-      <main className='bg-darkgrey flex-1'>
+      <main className='bg-darkgrey flex-1 flex flex-col'>
         <div className='border-b border-charcoal text-white'>
           <div className='py-2 px-8'>Python 3</div>
         </div>

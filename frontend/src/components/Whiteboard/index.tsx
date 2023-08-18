@@ -4,6 +4,7 @@ import {
   MouseEvent,
   useState,
   FocusEvent,
+  useEffect,
 } from 'react';
 import { useAppSelector, useAppDispatch } from '../../hooks';
 import {
@@ -45,14 +46,27 @@ const Whiteboard = () => {
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current!;
+    const roughCanvas = rough.canvas(canvas);
     const ctx = canvas.getContext('2d');
 
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
-    const roughCanvas = rough.canvas(canvas);
 
-    elements.forEach((element) => {
-      drawElement(roughCanvas, ctx!, element);
-    });
+    const drawAllShapes = () => {
+      elements.forEach((element) => {
+        drawElement(roughCanvas, ctx!, element);
+      });
+    };
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight - 85;
+      drawAllShapes();
+    };
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawAllShapes();
+    return () => window.removeEventListener('resize', resizeCanvas);
   }, [elements]);
 
   const computePointInCanvas = (event: MouseEvent): Point | void => {
@@ -63,7 +77,7 @@ const Whiteboard = () => {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
     return { x, y };
-  }
+  };
 
   const handleMouseDown = (event: MouseEvent) => {
     const currentPoint = computePointInCanvas(event);
@@ -253,7 +267,7 @@ const Whiteboard = () => {
   };
 
   return (
-    <div className='bg-white relative'>
+    <div className='relative flex-1 flex flex-col'>
       <Menu />
       {action === Action.WRITING ? (
         <textarea
@@ -264,24 +278,25 @@ const Whiteboard = () => {
             top: selectedElement?.startPoint?.y! - 3,
             left: selectedElement?.startPoint?.x!,
             font: '24px sans-serif',
-            border: 0,
+            border: '1px solid black',
             outline: 0,
-            resize: 'both',
+            resize: 'none',
             overflow: 'hidden',
             whiteSpace: 'pre',
             background: 'transparent',
+            zIndex: 100,
           }}
         />
       ) : null}
-      <canvas
-        id='canvas'
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-        ref={canvasRef}
-        width={window.innerWidth}
-        height={window.innerHeight}
-      />
+      <div className='bg-white relative flex-1'>
+        <canvas
+          id='canvas'
+          onMouseDown={handleMouseDown}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          ref={canvasRef}
+        />
+      </div>
     </div>
   );
 };

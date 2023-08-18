@@ -43,7 +43,7 @@ const IconButton = ({ src, type, isRubber }: IconButtonProps) => {
 
 const Menu = () => {
   return (
-    <div className={styles['menu-container']}>
+    <div className={`${styles['menu-container']} z-10`}>
       <IconButton src={rectangleIcon} type={ToolType.RECTANGLE} />
       <IconButton src={lineIcon} type={ToolType.LINE} />
       <IconButton src={rubberIcon} isRubber />
