@@ -47,7 +47,7 @@ const IconButton = ({ icon, type, isRubber }: IconButtonProps) => {
 
 const Menu = () => {
   return (
-    <div className='bg-zinc-700 absolute z-10 top-2 left-1/2 -translate-x-1/2 p-2.5 flex items-center gap-4 rounded-lg'>
+    <div className='bg-zinc-700 absolute z-10 top-2 top-1/2 left-2 p-2.5 flex flex-col -translate-y-1/2 items-center gap-4 rounded-lg'>
       <IconButton icon={<PiSquareBold />} type={ToolType.RECTANGLE} />
       <IconButton icon={<PiLineSegmentFill />} type={ToolType.LINE} />
       <IconButton icon={<FaEraser />} isRubber />
