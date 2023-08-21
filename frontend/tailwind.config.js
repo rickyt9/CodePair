@@ -2,6 +2,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    minWidth: {
+      12: '3rem',
+    },
     extend: {
       colors: {
         darkgrey: '#383A45',
