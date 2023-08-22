@@ -14,19 +14,20 @@ const ICE_SERVERS = {
   ],
 };
 
-interface MessageType {
+type Message = {
   yours: boolean;
   data: string;
-}
+};
 
 const CodeEditor = () => {
   const { roomId } = useParams();
   const [micActive, setMicActive] = useState(true);
   const [cameraActive, setCameraActive] = useState(true);
-  const [messages, setMessages] = useState<Array<MessageType>>([]);
-  const [chatText, setChatText] = useState<string>();
   const [code, setCode] = useState<string>('');
   const activePage = useAppSelector((state) => state.editor.activePage);
+
+  const [messages, setMessages] = useState<Array<Message>>([]);
+  const [chatText, setChatText] = useState<string>();
 
   // Refs for video elements
   const userVideoRef = useRef<HTMLVideoElement>(null);
@@ -127,10 +128,6 @@ const CodeEditor = () => {
     socket.emit('offer', offerSDP, roomId);
   };
 
-  const handleReceiveMessage = (e: MessageEvent) => {
-    setMessages((messages) => [...messages, { yours: false, data: e.data }]);
-  };
-
   const createPeerConnection = () => {
     const connection = new RTCPeerConnection(ICE_SERVERS);
     connection.onicecandidate = handleICECandidateEvent;
@@ -186,6 +183,10 @@ const CodeEditor = () => {
     setChatText('');
   };
 
+  const handleReceiveMessage = (e: MessageEvent) => {
+    setMessages((messages) => [...messages, { yours: false, data: e.data }]);
+  };
+
   const handleReceivedOffer = async (offerSDP: RTCSessionDescription) => {
     if (hostRef.current) return;
     rtcConnectionRef.current = createPeerConnection();
@@ -207,6 +208,7 @@ const CodeEditor = () => {
     const answerSDP = await createAnswer();
     socket.emit('answer', answerSDP, roomId);
   };
+
   const handleReceivedAnswer = async (answerSDP: RTCSessionDescription) => {
     try {
       await rtcConnectionRef.current?.setRemoteDescription(answerSDP);
