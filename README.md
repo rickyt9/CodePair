@@ -1,6 +1,7 @@
 # CodePair
-
 ## Description
+![Screenshot 2023-08-23 031227](https://github.com/rickyt9/CodePair/assets/71247261/a1076aa5-543b-408a-a22c-8c6cb4729bd0)
+
 CodePair is web application that allows people to have coding interviews online. Because sometimes it's hard to explain yourself with just words, this application features a whiteboard where the interviewee can draw their ideas as they would with a real life whiteboard and the interviewer will be able to see the drawing in real time. While the core of the application is composed of these features mentioned above, the code editor and the whiteboard, I still considered as a nice learning experience/challenge to add video calls and add chat messages via WebRTC.
 
 The initial communication between peers and the real time capabilities are implemented via websockets, mainly socket.io. A signaling server was developed using socket.io that transmits the necessary information (offer, answer and ICE candidates) between two clients so they can be directly connected and have a smooth video call experience. Additionally, the application handles rooms via the socket.io API, allowing to isolate two people so they can exchange information exclusively between them. This would also allow multiple people to perform coding interviews simultaneously as their data is not exchanged between them.
@@ -8,6 +9,12 @@ The initial communication between peers and the real time capabilities are imple
 The idea of the project came up after continuosly doing coding problems in preparation for interviews. It's often the case where we (candidates) support our thought process with drawings in notebooks that later we would have to show or would like to show to the interviewer, a part of coding interviews which was somewhat lost in the transition to the online world. The goal is to provide a whiteboard with tools specific to coding interviews and directly related to data structures so the user can easily manipulate their drawings without spending too much time in them.
 
 ## Example
+### Code Editor Sample
+https://github.com/rickyt9/CodePair/assets/71247261/8e29948b-247c-4962-a927-bffb15b42042
+
+### Whiteboard Sample
+https://github.com/rickyt9/CodePair/assets/71247261/5c6e2e7d-a93f-4a51-ba79-110030ea52c6
+
 
 ## Status - Ongoing
 Currently, the project is still in development, it is planned to be finished by mid september. The project mainly needs a refactoring to have proper separation of concerns in different files. The core functionalities, code editor and whiteboard, are working for most use cases, still need to handle a few error cases. 
@@ -37,6 +44,7 @@ Some features that could be added but for now are not part of the main deliverab
 * Adding tools to quickly build arrays, graphs, and linked lists.
 * Adding an undo command to the whiteboard to restore changes.
 * Changing the theme of the application and code editor.
+* Live cursor for the other user in the room.
 
 ## Technologies and Libraries
 React, ReduxToolkit, TailwindCSS, WebRTC, Socket.io, Rough.js, perfect-freehand,
